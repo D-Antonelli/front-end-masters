@@ -343,88 +343,175 @@ console.log(play()); // => should log 'pick a number to play again'
 
 // CHALLENGE 16
 function average() {
-
+  var average = 0
+  var total = 0
+  var count = 0
+	function calculator(num) {
+    if (typeof num === "number") {
+      count++
+			total += num
+      average = total / count
+    }
+    
+    else if (typeof num === "undefined") {
+      return average
+    }
+    
+    return average
+  }
+  
+  return calculator
 }
 
 // /*** Uncomment these to check your work! ***/
-// const avgSoFar = average();
-// console.log(avgSoFar()); // => should log 0
-// console.log(avgSoFar(4)); // => should log 4
-// console.log(avgSoFar(8)); // => should log 6
-// console.log(avgSoFar()); // => should log 6
-// console.log(avgSoFar(12)); // => should log 8
-// console.log(avgSoFar()); // => should log 8
+const avgSoFar = average();
+console.log(avgSoFar()); // => should log 0
+console.log(avgSoFar(4)); // => should log 4
+console.log(avgSoFar(8)); // => should log 6
+console.log(avgSoFar()); // => should log 6
+console.log(avgSoFar(12)); // => should log 8
+console.log(avgSoFar()); // => should log 8
 
 
 // CHALLENGE 17
 function makeFuncTester(arrOfTests) {
+  function tester(callback) {
+    let arr = arrOfTests
+    for (let i=0; i < arr.length; i++) {
+      let comp1 = callback(arr[i][0])
+      let comp2 = arr[i][1]
+      
+      if (comp1 !== comp2) {
+        return false
+      }
+      return true
+    }
+  }
   
+  return tester
 }
 
 // /*** Uncomment these to check your work! ***/
-// const capLastTestCases = [];
-// capLastTestCases.push(['hello', 'hellO']);
-// capLastTestCases.push(['goodbye', 'goodbyE']);
-// capLastTestCases.push(['howdy', 'howdY']);
-// const shouldCapitalizeLast = makeFuncTester(capLastTestCases);
-// const capLastAttempt1 = str => str.toUpperCase();
-// const capLastAttempt2 = str => str.slice(0, -1) + str.slice(-1).toUpperCase();
-// console.log(shouldCapitalizeLast(capLastAttempt1)); // => should log false
-// console.log(shouldCapitalizeLast(capLastAttempt2)); // => should log true
+const capLastTestCases = [];
+capLastTestCases.push(['hello', 'hellO']);
+capLastTestCases.push(['goodbye', 'goodbyE']);
+capLastTestCases.push(['howdy', 'howdY']);
+const shouldCapitalizeLast = makeFuncTester(capLastTestCases);
+const capLastAttempt1 = str => str.toUpperCase();
+const capLastAttempt2 = str => str.slice(0, -1) + str.slice(-1).toUpperCase();
+console.log(shouldCapitalizeLast(capLastAttempt1)); // => should log false
+console.log(shouldCapitalizeLast(capLastAttempt2)); // => should log true
 
 
 // CHALLENGE 18
 function makeHistory(limit) {
-
+let history = []
+  
+  function wordChecker(word) {
+    if (word === "undo") {
+        if (history.length < 1) {
+          console.log("nothing to undo")
+        } else {
+          let popped = history.pop()
+          console.log(popped, " undone")
+        }
+    }
+    else {
+      if (history.length < limit) {
+        history.push(word)
+      } else {
+        history.shift()
+        history.push(word)
+      }
+        console.log(word, " done")
+    }
+    return "---"
+  }
+  
+  return wordChecker
 }
 
 // /*** Uncomment these to check your work! ***/
-// const myActions = makeHistory(2);
-// console.log(myActions('jump')); // => should log 'jump done'
-// console.log(myActions('undo')); // => should log 'jump undone'
-// console.log(myActions('walk')); // => should log 'walk done'
-// console.log(myActions('code')); // => should log 'code done'
-// console.log(myActions('pose')); // => should log 'pose done'
-// console.log(myActions('undo')); // => should log 'pose undone'
-// console.log(myActions('undo')); // => should log 'code undone'
-// console.log(myActions('undo')); // => should log 'nothing to undo'
+const myActions = makeHistory(2);
+console.log(myActions('jump')); // => should log 'jump done'
+console.log(myActions('undo')); // => should log 'jump undone'
+console.log(myActions('walk')); // => should log 'walk done'
+console.log(myActions('code')); // => should log 'code done'
+console.log(myActions('pose')); // => should log 'pose done'
+console.log(myActions('undo')); // => should log 'pose undone'
+console.log(myActions('undo')); // => should log 'code undone'
+console.log(myActions('undo')); // => should log 'nothing to undo'
 
 
 // CHALLENGE 19
 function blackjack(array) {
+  let numbers = array
+  let sum;
+  let first;
+  let busted;
+  
+  function init() {
+    sum = 0
+    first = true
+    busted = false
+  }
+  
+	function dealer(num1, num2) {
+    init()
+    sum = num1 + num2
+    return player
+  }
+  
+  function player() {
+    if (!first && !busted) { sum = sum + numbers.shift() }
+    if ( busted ) { console.log("you are done!"); return "--" }
+    if (sum < 21) {
+      console.log(sum)
+      first = false
+    } else {
+      console.log("bust")
+      busted = true
+      return "--"
+    }
+    return "--"
+  }
+  
+  return dealer
+	}
+ 
 
-}
+
 
 // /*** Uncomment these to check your work! ***/
 
 // /*** DEALER ***/
-// const deal = blackjack([2, 6, 1, 7, 11, 4, 6, 3, 9, 8, 9, 3, 10, 4, 5, 3, 7, 4, 9, 6, 10, 11]);
+const deal = blackjack([2, 6, 1, 7, 11, 4, 6, 3, 9, 8, 9, 3, 10, 4, 5, 3, 7, 4, 9, 6, 10, 11]);
 
 // /*** PLAYER 1 ***/
-// const i_like_to_live_dangerously = deal(4, 5);
-// console.log(i_like_to_live_dangerously()); // => should log 9
-// console.log(i_like_to_live_dangerously()); // => should log 11
-// console.log(i_like_to_live_dangerously()); // => should log 17
-// console.log(i_like_to_live_dangerously()); // => should log 18
-// console.log(i_like_to_live_dangerously()); // => should log 'bust'
-// console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
-// console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
+const i_like_to_live_dangerously = deal(4, 5);
+console.log(i_like_to_live_dangerously()); // => should log 9
+console.log(i_like_to_live_dangerously()); // => should log 11
+console.log(i_like_to_live_dangerously()); // => should log 17
+console.log(i_like_to_live_dangerously()); // => should log 18
+console.log(i_like_to_live_dangerously()); // => should log 'bust'
+console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
+console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
 
 // /*** BELOW LINES ARE FOR THE BONUS ***/
 
 // /*** PLAYER 2 ***/
-// const i_TOO_like_to_live_dangerously = deal(2, 2);
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 4
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 15
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 19
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 'bust'
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
+const i_TOO_like_to_live_dangerously = deal(2, 2);
+console.log(i_TOO_like_to_live_dangerously()); // => should log 4
+console.log(i_TOO_like_to_live_dangerously()); // => should log 15
+console.log(i_TOO_like_to_live_dangerously()); // => should log 19
+console.log(i_TOO_like_to_live_dangerously()); // => should log 'bust'
+console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
+console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
 
 // /*** PLAYER 3 ***/
-// const i_ALSO_like_to_live_dangerously = deal(3, 7);
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 10
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 13
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 'bust'
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
+const i_ALSO_like_to_live_dangerously = deal(3, 7);
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 10
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 13
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 'bust'
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
